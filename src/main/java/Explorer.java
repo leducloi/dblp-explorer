@@ -109,12 +109,12 @@ public class Explorer {
 
     public static void main(String args[]){
         Scanner scan = new Scanner(System.in);
-//        System.out.print("Enter the keyword: ");
-//        String key = scan.nextLine();
-//        System.out.print("Enter the name of .txt file in dblp-explorer folder: ");
-//        String input_name = scan.nextLine();
-        String input_name = new String("dblp_papers_v11_first_100_lines.txt");
-        String key = new String("Remote");
+        System.out.print("Enter the keyword: ");
+        String key = scan.nextLine();
+        System.out.print("Enter the name of .txt file in dblp-explorer folder: ");
+        String input_name = scan.nextLine();
+//        String input_name = new String("dblp_papers_v11_first_100_lines.txt");
+//        String key = new String("Remote");
 
         Explorer newExplorer = new Explorer(key, input_name);
         newExplorer.store_1stObj();
