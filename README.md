@@ -7,5 +7,6 @@
  * Algorithm:
     1. The code will go through every line in JSON files and store only the Id and the line number while finding the very first tier containing keyword..
     2. Then it will recursively check if each JSON object in tier 1 has references:
-        a. Yes, then increase number of tier and recursively do it again.
+        a. Yes, then increase number of tier and recursively check again for each reference.
         b. No, then terminate.
+    3. This is efficient since it does not create JSON object for every single one, it only do when there is a JSON file meets the requirement (has to contain keyword or in the references)
