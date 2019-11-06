@@ -4,9 +4,7 @@ import java.util.*;
 import java.util.stream.*;
 import java.lang.*;
 import java.io.*;
-import java.io.PrintWriter;
-import java.util.LinkedHashMap;
-import java.util.Map;
+
 import com.google.gson.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,10 +29,7 @@ public class Explorer {
 
     public void store_1stObj(){
         try{
-            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-            InputStream in = classLoader.getResourceAsStream(input_name);
-            InputStreamReader inr = new InputStreamReader(in);
-            BufferedReader br = new BufferedReader(inr);
+            BufferedReader br = new BufferedReader(new FileReader(input_name));
             int num_line = 0;
             String line;
             while( (line = br.readLine()) != null){
@@ -91,13 +86,10 @@ public class Explorer {
             for (JsonElement all_ref : json_ref){
                 String each_id = all_ref.getAsString();
                 all_tier.put(each_id, n);
-                System.out.println(all_obj_line.containsKey(each_id));
                 if (all_obj_line.containsKey(each_id) == true){
                     int line_num = all_obj_line.get(each_id);
                     try{
-                        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
-                        String path = classLoader.getResource(input_name).getPath();
-                        Stream<String> lines = Files.lines(Paths.get(path));
+                        Stream<String> lines = Files.lines(Paths.get(input_name));
                         String line = lines.skip(line_num).findFirst().get();
 
                         JsonElement json_line = new JsonParser().parse(line);
@@ -126,7 +118,7 @@ public class Explorer {
 //        String key = scan.nextLine();
 //        System.out.print("Enter the name of .txt file in resources: ");
 //        String input_name = scan.nextLine();
-        String input_name = new String( "dblp_papers_v11_first_100_lines.txt");
+        String input_name = new String("dblp_papers_v11_first_100_lines.txt");
         String key = new String("Remote");
 
         Explorer newExplorer = new Explorer(key, input_name);
