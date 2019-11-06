@@ -13,7 +13,7 @@ public class Explorer {
     private String input_name;
     private int n;
     private LinkedList<JsonObject> all_obj;
-    private HashMap<String, Integer> all_tier;
+    private HashMap<Integer, Collection<String>> all_tier;
     private HashMap<String, Integer> all_obj_line;
     InputStream in;
 
@@ -22,7 +22,7 @@ public class Explorer {
         this.n = 1;
         this.input_name = input_name;
         this.all_obj = new LinkedList<JsonObject>();
-        this.all_tier = new HashMap<String, Integer>();
+        this.all_tier = new HashMap<Integer, Collection<String>>();
         this.all_obj_line = new HashMap<String, Integer>();
 
     }
@@ -44,26 +44,16 @@ public class Explorer {
                 boolean foundKey = title.contains(keyword);
                 if (foundKey == true){
                     all_obj.add(jobj);
-                    all_tier.put(id, 1);
+                    Collection<String> all_values = all_tier.get(1);
+                    if (all_values==null) {
+                        all_values = new ArrayList<String>();
+                        all_tier.put(1, all_values);
+                    }
+                    all_values.add(id);
                 }
                 all_obj_line.put(id, num_line);
                 num_line++;
             }
-//            line = br.readLine();
-//            line = br.readLine();
-//            // System.out.println(line);
-//            JsonElement json_line = new JsonParser().parse(line);
-//            JsonObject jobj = json_line.getAsJsonObject();
-//            JsonElement id_el = jobj.get("id");
-//            String id = id_el.getAsString();
-//            System.out.println(id);
-//            JsonArray json_ref = jobj.getAsJsonArray("references");
-//            if (json_ref != null){
-//                for (JsonElement all_ref : json_ref){
-//                    String all_id = all_ref.getAsString();
-//                    System.out.println(all_id);
-//                }
-//            }
         }
         catch(Exception event){
             event.printStackTrace();
@@ -85,7 +75,12 @@ public class Explorer {
         else{
             for (JsonElement all_ref : json_ref){
                 String each_id = all_ref.getAsString();
-                all_tier.put(each_id, n);
+                Collection<String> all_values = all_tier.get(n);
+                if (all_values==null) {
+                    all_values = new ArrayList<String>();
+                    all_tier.put(n, all_values);
+                }
+                all_values.add(each_id);
                 if (all_obj_line.containsKey(each_id) == true){
                     int line_num = all_obj_line.get(each_id);
                     try{
@@ -107,7 +102,7 @@ public class Explorer {
     }
 
     public void print_allTier(){
-        for (String key : all_tier.keySet()) {
+        for (Integer key : all_tier.keySet()) {
             System.out.println(key + " " + all_tier.get(key));
         }
     }
@@ -116,7 +111,7 @@ public class Explorer {
         Scanner scan = new Scanner(System.in);
 //        System.out.print("Enter the keyword: ");
 //        String key = scan.nextLine();
-//        System.out.print("Enter the name of .txt file in resources: ");
+//        System.out.print("Enter the name of .txt file in dblp-explorer folder: ");
 //        String input_name = scan.nextLine();
         String input_name = new String("dblp_papers_v11_first_100_lines.txt");
         String key = new String("Remote");
